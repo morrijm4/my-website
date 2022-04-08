@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
 const items = ["do homework", "clean room", "buy food"];
 
 export default function Home() {
+  useEffect(async () => {
+    const test = async () => {
+      const res = await fetch("/api/hello");
+      console.log(res);
+    };
+    test();
+  }, []);
+
   const [list, setList] = useState(items);
   const [item, setItem] = useState("");
 
