@@ -5,9 +5,9 @@ import styles from "../styles/Home.module.css";
 const items = ["do homework", "clean room", "buy food"];
 
 export default function Home() {
-  useEffect(async () => {
+  useEffect(() => {
     const test = async () => {
-      const res = await fetch("/api/hello");
+      const res = await fetch("/api/items");
       console.log(res);
     };
     test();

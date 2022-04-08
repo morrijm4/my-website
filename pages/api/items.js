@@ -10,6 +10,8 @@ export default async function handler(req, res) {
 
     await client.db("admin").command({ ping: 1 });
     console.log("hi");
+  } catch (error) {
+    console.log(error);
   } finally {
     await client.close();
   }
