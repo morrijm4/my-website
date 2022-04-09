@@ -8,7 +8,9 @@ export default function Home() {
   useEffect(() => {
     const test = async () => {
       const res = await fetch("/api/items");
-      console.log(res);
+      const list = await res.json();
+      console.log(list);
+      setList(list);
     };
     test();
   }, []);
@@ -16,9 +18,16 @@ export default function Home() {
   const [list, setList] = useState(items);
   const [item, setItem] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setList((prevList) => [...prevList, item]);
+    await fetch("/api/items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: item,
+    });
     setItem("");
   };
 
@@ -26,11 +35,22 @@ export default function Home() {
     setItem(e.target.value);
   };
 
-  const removeItem = (idx) => {
+  const removeItem = async (idx) => {
+    const _id = list[idx]._id;
+    console.log(_id);
+
     setList((prevList) => [
       ...prevList.slice(0, idx),
       ...prevList.slice(idx + 1),
     ]);
+
+    await fetch("/api/items", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: _id,
+    });
   };
 
   return (
@@ -50,7 +70,7 @@ export default function Home() {
               key={idx}
               onClick={() => removeItem(idx)}
             >
-              {el}
+              {el.item}
             </li>
           ))}
         </ul>
